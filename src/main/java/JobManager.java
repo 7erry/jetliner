@@ -25,7 +25,7 @@ import java.util.concurrent.Future;
  * Created by terrywalters on 5/4/17.
  */
 public class JobManager {
-    public static void main(String[] args)  {
+    public static void main(String[] args) throws InstantiationException {
 
         JobManager mgr = new JobManager();
 
@@ -34,6 +34,7 @@ public class JobManager {
          */
         OptionParser parser = new OptionParser();
         parser.accepts("job").withRequiredArg();
+        parser.accepts( "exec" );
         parser.accepts( "start" );
         parser.accepts( "stop" );
         parser.accepts( "resume" );
@@ -50,19 +51,48 @@ public class JobManager {
         JetInstance jet = Jet.newJetInstance(config);
 
         String jobName = (String) options.valueOf("job");
-        if(options.has("start")) {
+
+        if(options.has("exec")) {
+            Jetliner.printBanner();
+
+            try {
+                System.out.println("jobName:\t"+jobName);
+                mgr.executeJob(jet,jobName);
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+            Jetliner.printJet();
+        }else if(options.has("start")) {
+            Jetliner.printBanner();
+            System.out.println("\t\tNot currently implemented");
+            Jetliner.printJet();
         }else if(options.has("stop")) {
-
+            Jetliner.printBanner();
+            System.out.println("\t\tNot currently implemented");
+            Jetliner.printJet();
         }else if(options.has("resume")) {
-
+            Jetliner.printBanner();
+            System.out.println("\t\tNot currently implemented");
+            Jetliner.printJet();
         }else if(options.has("kill")) {
-
+            Jetliner.printBanner();
+            System.out.println("\t\tNot currently implemented");
+            Jetliner.printJet();
         }else if(options.has("status")) {
-
+            Jetliner.printBanner();
+            System.out.println("\t\tNot currently implemented");
+            Jetliner.printJet();
         }else{
             Jetliner.printUsage();
         }
-
 
     }
 
@@ -88,28 +118,41 @@ public class JobManager {
     }
 
     private void executeJob(JetInstance jet, String jobName) throws InvocationTargetException,
-            IllegalAccessException, ClassNotFoundException, NoSuchMethodException, MalformedURLException{
+            IllegalAccessException, ClassNotFoundException, NoSuchMethodException, MalformedURLException, InstantiationException {
 
-        // evil reflection crap-o-la to enable dynamic class loading of user supplied Computation/Job
-        String dagLib = "/Users/terrywalters/Documents/projects/hazelcast/stock-exchange/Computation.class";
-        Class dagClass = loadClass("Computation",dagLib);
-        Method buildDag = dagClass.getMethod("buildDag");
+
+        /**
+         * // 36 cluster
+         Class client36config = loadClass("com.hazelcast.client.config.ClientConfig",lib36);
+         Object client36Config = client36config.newInstance();
+         Class client36hazelcast = loadClass("com.hazelcast.client.HazelcastClient",lib36);
+         Method H36 = client36hazelcast.getMethod("newHazelcastClient");
+         Object h36 = H36.invoke(client36Config);
+         Method getMap36 = h36.getClass().getMethod("getMap", String.class);
+         */
 
         //Parameter[] parameters = buildDag.getParameters();
         //parameters[0].
 
         // get user supplied DAD
-        DAG dag = (DAG) buildDag.invoke(buildDag);
-        Job job = jet.newJob(dag);
+        // evil reflection crap-o-la to enable dynamic class loading of user supplied Computation/Job
+        String dagLib = "/Users/terrywalters/Documents/projects/hazelcast/stock-exchange/target/stock-exchange-1.0-SNAPSHOT.jar";
+        Class dagClass = loadClass("Computation",dagLib);
+        Object oDag = dagClass.newInstance();
+        Method buildDag = dagClass.getMethod("buildDag");
+        DAG dag = (DAG) buildDag.invoke(oDag);
 
         // add job to our jobs map
-        IStreamMap<String, Job> jobs = jet.getMap("jobs");
-        jobs.put(jobName,job);
-        Future fJob = job.execute();
-        System.out.println("\texecuting:\t"+job.toString());
-        System.out.println("");
-        Jetliner.printJet();
+        //IStreamMap<String, Job> jobs = jet.getMap("jobs");
+        //jobs.put(jobName,job);
 
+        // run this job
+        Job job = jet.newJob(dag);
+        Future fJob = job.execute();
+        while(fJob.isDone()){
+            Thread.yield();
+        }
+        // print job
 
         //fJob.cancel();
 

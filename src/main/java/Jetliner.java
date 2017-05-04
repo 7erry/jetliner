@@ -7,7 +7,7 @@ import joptsimple.OptionSet;
  */
 public class Jetliner {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InstantiationException {
         for (int i = 0; i < args.length; i++) {
             System.out.println(args[i]);
         }
@@ -19,7 +19,10 @@ public class Jetliner {
         parser.accepts( "sub" );
         parser.accepts( "comp" );
         parser.accepts( "pipe" );
+        parser.accepts( "exec" );
         parser.accepts( "mgr" );
+        parser.accepts( "job" );
+        parser.accepts( "ip" );
         parser.accepts( "usage" );
 
         OptionSet options = parser.parse( args );
@@ -58,6 +61,7 @@ public class Jetliner {
         }else{
             printBanner();
             System.out.println("No parameters found. See usage -usage");
+            printJet();
         }
 
     }
@@ -69,6 +73,7 @@ public class Jetliner {
     }
     public static void printUsage(){
         printBanner();
+        System.out.println("\t-ip <ip address>                      identifies the member ip address");
         System.out.println("\t-pub to publish");
         System.out.println("\t\t-pipe <name>");
         System.out.println("\t-sub to subscribe");

@@ -21,13 +21,17 @@ public class Publisher {
          */
         OptionParser parser = new OptionParser();
         parser.accepts( "pipe" ).withRequiredArg();
+        parser.accepts( "ip" );
         //parser.accepts( "name" ).requiredIf( "pipe" ).withRequiredArg();
 
         OptionSet options = parser.parse( args );
         JetConfig config = new JetConfig();
         config.getHazelcastConfig().getNetworkConfig().getJoin().getMulticastConfig().setEnabled(false);
         config.getHazelcastConfig().getNetworkConfig().getJoin().getTcpIpConfig().setEnabled(true);
-        config.getHazelcastConfig().getNetworkConfig().getJoin().getTcpIpConfig().addMember("localhost");
+        if(options.has("ip"))
+            config.getHazelcastConfig().getNetworkConfig().getJoin().getTcpIpConfig().addMember((String) options.valueOf("ip"));
+        else
+            config.getHazelcastConfig().getNetworkConfig().getJoin().getTcpIpConfig().addMember("localhost");
         config.getHazelcastConfig().getGroupConfig().setName("JetLiner");
         JetInstance jet = Jet.newJetInstance(config);
 

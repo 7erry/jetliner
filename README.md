@@ -9,6 +9,12 @@ The missing command line interface for Jet.
 			powered by Hazelcast Jet
 	
 	-pub to publish
+		-pipe (name)
 	-sub to subscribe
-	-comp to computation
-	-pipe (name)
+		-pipe (name)
+	-mgr (name) to manage a job identified by (name)
+		-start
+		-stop
+		-kill
+		-status
+	

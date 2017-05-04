@@ -5,7 +5,7 @@ import joptsimple.OptionSet;
 /**
  * Created by terrywalters on 5/4/17.
  */
-public class Hackathon {
+public class Jetliner {
 
     public static void main(String[] args) {
         for (int i = 0; i < args.length; i++) {

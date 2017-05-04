@@ -1,2 +1,9 @@
 # jetliner 
- CLI Publisher & CLI Consumer / SDIN. Bring Jet to linux command line text processing & job control
+The missing command line interface for Jet.
+				JetLiner
+			powered by Hazelcast Jet
+	
+	-pub to publish
+	-sub to subscribe
+	-comp to computation
+	-pipe (name)

@@ -33,6 +33,7 @@ public class Consumer {
         String pipeName = (String) options.valueOf("pipe");
         IStreamMap<Long, String> pipe = jet.getMap(pipeName);
         Map<Long,Boolean> printed = new HashMap<>();
+
         while (true) {
             for (Map.Entry<Long, String> entry : pipe.entrySet()) {
                 if(printed.get(entry.getKey()) == null) {

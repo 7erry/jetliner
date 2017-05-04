@@ -8,6 +8,8 @@ The missing command line interface for Jet.
 				JetLiner
 			powered by Hazelcast Jet
 	
+	
+	-ip <ip address>                      identifies the member ip address
 	-pub to publish
 		-pipe <name>
 	-sub to subscribe

@@ -12,9 +12,9 @@ The missing command line interface for Jet.
 		-pipe (name)
 	-sub to subscribe
 		-pipe (name)
-	-mgr (name) to manage a job identified by (name)
+	-mgr to manage a job
+		-job (name) identifies the job by name
 		-start
 		-stop
 		-kill
 		-status
-	

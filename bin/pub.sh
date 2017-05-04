@@ -1,1 +1,1 @@
-java -jar -Djava.net.preferIPv4Addresses=true ../target/hackathon-1.0-SNAPSHOT.jar -sub -pipe $1
+java -jar $jetliner/target/jetliner-1.0-SNAPSHOT.jar Jetliner -pub -pipe $1

@@ -3,7 +3,7 @@
 
 
 The missing command line interface for Jet.
-Jetliner provides a command-line interface to run programs that are packaged as JAR files, and control their execution. The command line interface is part of any Jet setup. It is located under <jet-home>/bin/jetliner and starts a server node by default but supports client server deployment as well.
+Jetliner provides a command-line interface to run programs that are packaged as JAR files, and control their execution. The command line interface is part of any Jet setup. It is located under {jet-home}/bin/jetliner and starts a server node by default but supports client server deployment as well.
 
 
 				JetLiner
